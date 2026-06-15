@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>山河行 - 中国热门旅行攻略</title>
-    <link rel="stylesheet" href="styles.css?v=2" />
+    <link rel="stylesheet" href="styles.css?v=3" />
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#home" aria-label="山河行首页">
+      <a class="brand" href="index.html#home" aria-label="山河行首页">
         <span class="brand-mark">山</span>
         <span>山河行</span>
       </a>
@@ -18,13 +18,13 @@
         <span></span>
       </button>
       <nav class="main-nav" id="mainNav" aria-label="主导航">
-        <a href="#home">首页</a>
-        <a href="#spots">景点攻略</a>
-        <a href="#themes">旅行主题</a>
-        <a href="#routes">推荐路线</a>
-        <a href="#profile" id="profileNavLink">个人主页</a>
-        <a href="#login" id="loginNavLink">登录</a>
-        <a href="#about">关于</a>
+        <a href="index.html#home">首页</a>
+        <a href="index.html#spots">景点攻略</a>
+        <a href="index.html#themes">旅行主题</a>
+        <a href="index.html#routes">推荐路线</a>
+        <a href="profile.html">个人主页</a>
+        <a href="login.html">登录</a>
+        <a href="index.html#about">关于</a>
       </nav>
     </header>
 
@@ -183,62 +183,6 @@
         <div class="route-grid" id="routeGrid"></div>
       </section>
 
-      <section class="section auth-section" id="login">
-        <div class="auth-visual">
-          <p class="eyebrow">登录山河行</p>
-          <h2>保存收藏，继续规划你的下一段旅程</h2>
-          <p>
-            这里使用浏览器本地存储模拟登录，适合课程项目和前端演示。填写昵称、邮箱和偏好后，个人主页会自动生成旅行档案。
-          </p>
-        </div>
-        <form class="auth-card" id="loginForm">
-          <div>
-            <p class="eyebrow">账号信息</p>
-            <h3>登录 / 创建本地账号</h3>
-          </div>
-          <label>
-            昵称
-            <input id="loginName" name="name" type="text" placeholder="例如：山河旅人" required minlength="2" />
-          </label>
-          <label>
-            邮箱
-            <input id="loginEmail" name="email" type="email" placeholder="you@example.com" required />
-          </label>
-          <label>
-            密码
-            <input id="loginPassword" name="password" type="password" placeholder="至少 6 位，演示用" required minlength="6" />
-          </label>
-          <label>
-            常住城市
-            <input id="loginCity" name="city" type="text" placeholder="例如：上海" />
-          </label>
-          <label>
-            旅行偏好
-            <select id="loginStyle" name="style">
-              <option value="自然风光">自然风光</option>
-              <option value="历史文化">历史文化</option>
-              <option value="亲子游">亲子游</option>
-              <option value="情侣游">情侣游</option>
-              <option value="海滨度假">海滨度假</option>
-              <option value="摄影">摄影</option>
-            </select>
-          </label>
-          <button class="primary-action" type="submit">进入个人主页</button>
-          <p class="form-note" id="loginMessage" role="status"></p>
-        </form>
-      </section>
-
-      <section class="section profile-section" id="profile">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">个人主页</p>
-            <h2>我的旅行档案</h2>
-          </div>
-          <button class="secondary-action" type="button" id="logoutButton">退出登录</button>
-        </div>
-        <div class="profile-layout" id="profileContent"></div>
-      </section>
-
       <section class="section about-section" id="about">
         <div class="about-copy">
           <p class="eyebrow">关于山河行</p>
@@ -264,6 +208,6 @@
       <span>友情链接：城市攻略 / 景区地图 / 旅行摄影</span>
     </footer>
 
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
   </body>
 </html>

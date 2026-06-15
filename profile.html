@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>个人主页 - 山河行</title>
+    <link rel="stylesheet" href="styles.css?v=3" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html#home" aria-label="山河行首页">
+        <span class="brand-mark">山</span>
+        <span>山河行</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="打开导航" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="main-nav" id="mainNav" aria-label="主导航">
+        <a href="index.html#home">首页</a>
+        <a href="index.html#spots">景点攻略</a>
+        <a href="index.html#themes">旅行主题</a>
+        <a href="index.html#routes">推荐路线</a>
+        <a href="profile.html" aria-current="page">个人主页</a>
+        <a href="login.html" id="accountNavLink">登录</a>
+        <a href="index.html#about">关于</a>
+      </nav>
+    </header>
+
+    <main class="account-main">
+      <section class="section profile-section" id="profile">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">个人主页</p>
+            <h1>我的旅行档案</h1>
+          </div>
+          <button class="secondary-action" type="button" id="logoutButton">退出登录</button>
+        </div>
+        <div class="profile-layout" id="profileContent"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© 2026 山河行旅行攻略</span>
+      <span><a href="index.html#spots">继续浏览景点攻略</a></span>
+    </footer>
+
+    <script src="account.js?v=1"></script>
+  </body>
+</html>

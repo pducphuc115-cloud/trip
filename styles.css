@@ -113,6 +113,12 @@ img {
   background: rgba(108, 138, 122, 0.14);
 }
 
+.main-nav a[aria-current="page"] {
+  color: var(--forest);
+  background: rgba(108, 138, 122, 0.14);
+  font-weight: 800;
+}
+
 .nav-toggle {
   display: none;
   width: 44px;
@@ -298,6 +304,7 @@ img {
 }
 
 .section-heading h2,
+.section-heading h1,
 .about-copy h2 {
   margin: 0;
   font-size: clamp(1.8rem, 4vw, 3rem);
@@ -661,6 +668,10 @@ img {
   align-items: stretch;
 }
 
+.account-main {
+  min-height: calc(100vh - 72px);
+}
+
 .auth-visual,
 .auth-card,
 .profile-card,
@@ -692,10 +703,11 @@ img {
     url("assets/lijiang.jpg") center / cover;
 }
 
-.auth-visual h2 {
+.auth-visual h1 {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3.6rem);
   line-height: 1.08;
+  overflow-wrap: anywhere;
 }
 
 .auth-visual p:not(.eyebrow) {
@@ -709,7 +721,7 @@ img {
   padding: 28px;
 }
 
-.auth-card h3 {
+.auth-card h2 {
   margin: 0;
   font-size: 1.6rem;
 }
@@ -794,7 +806,7 @@ img {
   font-weight: 900;
 }
 
-.profile-main h3 {
+.profile-main h2 {
   margin: 0;
   font-size: 1.7rem;
 }
@@ -837,7 +849,7 @@ img {
   padding: 24px;
 }
 
-.profile-panel h3 {
+.profile-panel h2 {
   margin: 0;
   font-size: 1.35rem;
 }
@@ -864,8 +876,9 @@ img {
   object-fit: cover;
 }
 
-.favorite-item h4 {
+.favorite-item h3 {
   margin: 0 0 4px;
+  font-size: 1rem;
 }
 
 .favorite-item p {
@@ -1015,6 +1028,12 @@ img {
   .auth-visual {
     min-height: 360px;
     padding: 24px;
+  }
+
+  .auth-visual h1 {
+    font-size: 2rem;
+    line-height: 1.12;
+    word-break: break-all;
   }
 
   .favorite-item {
