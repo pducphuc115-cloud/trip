@@ -318,7 +318,8 @@ const state = {
   days: "",
   budget: "",
   sort: "popular",
-  favorites: new Set(JSON.parse(localStorage.getItem("tripFavorites") || "[]"))
+  favorites: new Set(JSON.parse(localStorage.getItem("tripFavorites") || "[]")),
+  user: JSON.parse(localStorage.getItem("tripUser") || "null")
 };
 
 const elements = {
@@ -339,11 +340,26 @@ const elements = {
   detailTitle: document.querySelector("#detailTitle"),
   detailLayout: document.querySelector("#detailLayout"),
   backToList: document.querySelector("#backToList"),
-  routeGrid: document.querySelector("#routeGrid")
+  routeGrid: document.querySelector("#routeGrid"),
+  loginForm: document.querySelector("#loginForm"),
+  loginMessage: document.querySelector("#loginMessage"),
+  logoutButton: document.querySelector("#logoutButton"),
+  profileContent: document.querySelector("#profileContent"),
+  loginNavLink: document.querySelector("#loginNavLink"),
+  profileNavLink: document.querySelector("#profileNavLink")
 };
 
 function saveFavorites() {
   localStorage.setItem("tripFavorites", JSON.stringify([...state.favorites]));
+}
+
+function saveUser(user) {
+  state.user = user;
+  if (user) {
+    localStorage.setItem("tripUser", JSON.stringify(user));
+  } else {
+    localStorage.removeItem("tripUser");
+  }
 }
 
 function matchesQuery(spot) {
@@ -382,6 +398,7 @@ function renderSpots() {
   elements.resultCount.textContent = `共找到 ${filtered.length} 个景点攻略`;
   elements.emptyState.hidden = filtered.length > 0;
   elements.spotGrid.innerHTML = filtered.map(renderSpotCard).join("");
+  renderProfile();
 }
 
 function renderSpotCard(spot) {
@@ -493,6 +510,98 @@ function renderRoutes() {
   `).join("");
 }
 
+function renderAuthState() {
+  if (!state.user) {
+    elements.loginNavLink.textContent = "登录";
+    elements.loginNavLink.setAttribute("href", "#login");
+    elements.profileNavLink.textContent = "个人主页";
+    elements.logoutButton.hidden = true;
+    return;
+  }
+
+  elements.loginNavLink.textContent = state.user.name;
+  elements.loginNavLink.setAttribute("href", "#profile");
+  elements.profileNavLink.textContent = "我的主页";
+  elements.logoutButton.hidden = false;
+}
+
+function renderProfile() {
+  renderAuthState();
+
+  if (!state.user) {
+    elements.profileContent.innerHTML = `
+      <div class="login-required">
+        <p class="eyebrow">需要登录</p>
+        <h3>登录后查看个人旅行档案</h3>
+        <p>个人主页会展示你的收藏景点、旅行偏好和本地账号信息。当前项目使用浏览器本地存储模拟登录。</p>
+        <a class="primary-action inline-action" href="#login">去登录</a>
+      </div>
+    `;
+    return;
+  }
+
+  const favoriteSpots = spots.filter((spot) => state.favorites.has(spot.id));
+  const preferredSpots = spots.filter((spot) => spot.themes.includes(state.user.style));
+  const initial = state.user.name.slice(0, 1).toUpperCase();
+
+  elements.profileContent.innerHTML = `
+    <article class="profile-card">
+      <div class="profile-cover"></div>
+      <div class="profile-main">
+        <div class="avatar">${initial}</div>
+        <div>
+          <h3>${state.user.name}</h3>
+          <p>${state.user.email}</p>
+        </div>
+        <div class="profile-stats">
+          <div><strong>${favoriteSpots.length}</strong><span>收藏景点</span></div>
+          <div><strong>${preferredSpots.length}</strong><span>${state.user.style}推荐</span></div>
+          <div><strong>${state.user.city || "未填"}</strong><span>常住城市</span></div>
+        </div>
+        <div class="tag-list">
+          <span class="theme-tag">偏好：${state.user.style}</span>
+          <span class="theme-tag">加入：${state.user.createdAt}</span>
+        </div>
+      </div>
+    </article>
+    <article class="profile-panel">
+      <div>
+        <p class="eyebrow">我的收藏</p>
+        <h3>已收藏攻略</h3>
+      </div>
+      ${favoriteSpots.length ? `
+        <div class="favorite-list">
+          ${favoriteSpots.map(renderFavoriteItem).join("")}
+        </div>
+      ` : `
+        <div class="profile-empty">
+          还没有收藏景点。回到景点攻略列表，点击卡片右上角的“藏”即可加入这里。
+        </div>
+      `}
+      <div>
+        <p class="eyebrow">偏好推荐</p>
+        <h3>${state.user.style}目的地</h3>
+      </div>
+      <div class="tag-list">
+        ${preferredSpots.slice(0, 6).map((spot) => `<button class="text-link" type="button" data-detail="${spot.id}">${spot.name}</button>`).join("")}
+      </div>
+    </article>
+  `;
+}
+
+function renderFavoriteItem(spot) {
+  return `
+    <div class="favorite-item">
+      <img src="${spot.image}" alt="${spot.name}" loading="lazy" />
+      <div>
+        <h4>${spot.name}</h4>
+        <p>${spot.city} / ${spot.days} / ${spot.budget}</p>
+      </div>
+      <button class="text-link" type="button" data-detail="${spot.id}">查看攻略</button>
+    </div>
+  `;
+}
+
 function applySearch(value) {
   state.query = value.trim();
   elements.searchInput.value = state.query;
@@ -519,6 +628,14 @@ function clearFilters() {
 function closeMobileNav() {
   document.body.classList.remove("nav-open");
   elements.navToggle.setAttribute("aria-expanded", "false");
+}
+
+function scrollToCurrentHash() {
+  if (!window.location.hash) return;
+  const target = document.querySelector(window.location.hash);
+  if (target) {
+    setTimeout(() => target.scrollIntoView({ behavior: "auto", block: "start" }), 80);
+  }
 }
 
 elements.navToggle.addEventListener("click", () => {
@@ -568,6 +685,30 @@ elements.sortFilter.addEventListener("change", (event) => {
 
 elements.clearFilters.addEventListener("click", clearFilters);
 
+elements.loginForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(elements.loginForm);
+  const user = {
+    name: formData.get("name").trim(),
+    email: formData.get("email").trim(),
+    city: formData.get("city").trim(),
+    style: formData.get("style"),
+    createdAt: new Date().toLocaleDateString("zh-CN")
+  };
+
+  saveUser(user);
+  elements.loginMessage.textContent = "登录成功，正在生成个人主页。";
+  renderProfile();
+  window.location.hash = "profile";
+});
+
+elements.logoutButton.addEventListener("click", () => {
+  saveUser(null);
+  elements.loginMessage.textContent = "";
+  renderProfile();
+  window.location.hash = "login";
+});
+
 document.addEventListener("click", (event) => {
   const favoriteButton = event.target.closest("[data-favorite]");
   const detailButton = event.target.closest("[data-detail]");
@@ -585,6 +726,7 @@ document.addEventListener("click", (event) => {
     }
     saveFavorites();
     renderSpots();
+    renderProfile();
   }
 
   if (detailButton) {
@@ -633,3 +775,5 @@ elements.backToList.addEventListener("click", () => {
 
 renderSpots();
 renderRoutes();
+renderProfile();
+scrollToCurrentHash();
