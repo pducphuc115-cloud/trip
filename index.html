@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>山河行 - 中国热门旅行攻略</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="山河行首页">
+        <span class="brand-mark">山</span>
+        <span>山河行</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="打开导航" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="main-nav" id="mainNav" aria-label="主导航">
+        <a href="#home">首页</a>
+        <a href="#spots">景点攻略</a>
+        <a href="#themes">旅行主题</a>
+        <a href="#routes">推荐路线</a>
+        <a href="#about">关于</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-media" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">中国 10 大热门目的地攻略</p>
+          <h1>
+            <span>把想去的地方，</span>
+            <span>整理成可执行的</span>
+            <span>旅行计划</span>
+          </h1>
+          <p class="hero-copy">
+            搜索城市、景点或主题，快速比较门票、交通、游玩天数、拍照点和避坑提醒。
+          </p>
+          <form class="hero-search" id="heroSearch">
+            <label class="sr-only" for="searchInput">搜索景点、城市或关键词</label>
+            <input id="searchInput" type="search" placeholder="搜索：故宫、西湖、亲子游、海滨..." autocomplete="off" />
+            <button type="submit">搜索攻略</button>
+          </form>
+          <div class="quick-links" aria-label="热门目的地">
+            <button type="button" data-quick="北京故宫">北京故宫</button>
+            <button type="button" data-quick="九寨沟">九寨沟</button>
+            <button type="button" data-quick="三亚">三亚</button>
+            <button type="button" data-quick="摄影">摄影路线</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section intro-strip" aria-label="网站摘要">
+        <div>
+          <strong>10</strong>
+          <span>热门景点</span>
+        </div>
+        <div>
+          <strong>4</strong>
+          <span>筛选维度</span>
+        </div>
+        <div>
+          <strong>3</strong>
+          <span>精选路线</span>
+        </div>
+        <div>
+          <strong>本地</strong>
+          <span>收藏保存</span>
+        </div>
+      </section>
+
+      <section class="section" id="spots">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">攻略索引</p>
+            <h2>热门景点</h2>
+          </div>
+          <button class="secondary-action" type="button" id="clearFilters">清空筛选</button>
+        </div>
+
+        <div class="filters" aria-label="景点筛选">
+          <label>
+            地区
+            <select id="regionFilter">
+              <option value="">全部地区</option>
+              <option value="华北">华北</option>
+              <option value="华东">华东</option>
+              <option value="华南">华南</option>
+              <option value="华中">华中</option>
+              <option value="西南">西南</option>
+              <option value="西北">西北</option>
+            </select>
+          </label>
+          <label>
+            主题
+            <select id="themeFilter">
+              <option value="">全部主题</option>
+              <option value="历史文化">历史文化</option>
+              <option value="自然风光">自然风光</option>
+              <option value="城市观光">城市观光</option>
+              <option value="海滨度假">海滨度假</option>
+              <option value="亲子游">亲子游</option>
+              <option value="情侣游">情侣游</option>
+              <option value="摄影">摄影</option>
+            </select>
+          </label>
+          <label>
+            天数
+            <select id="daysFilter">
+              <option value="">全部天数</option>
+              <option value="1">1 天内</option>
+              <option value="2-3">2-3 天</option>
+              <option value="4+">4 天以上</option>
+            </select>
+          </label>
+          <label>
+            预算
+            <select id="budgetFilter">
+              <option value="">全部预算</option>
+              <option value="低预算">低预算</option>
+              <option value="中等预算">中等预算</option>
+              <option value="高预算">高预算</option>
+            </select>
+          </label>
+          <label>
+            排序
+            <select id="sortFilter">
+              <option value="popular">热门优先</option>
+              <option value="weekend">周末友好</option>
+              <option value="budget">预算从低到高</option>
+            </select>
+          </label>
+        </div>
+
+        <p class="result-count" id="resultCount"></p>
+        <div class="spot-grid" id="spotGrid"></div>
+        <div class="empty-state" id="emptyState" hidden>
+          <h3>没有找到匹配的攻略</h3>
+          <p>换一个城市、主题或清空筛选条件再试。</p>
+        </div>
+      </section>
+
+      <section class="section detail-section" id="detailSection" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">景点详情</p>
+            <h2 id="detailTitle">景点详情</h2>
+          </div>
+          <button class="secondary-action" type="button" id="backToList">返回列表</button>
+        </div>
+        <article class="detail-layout" id="detailLayout"></article>
+      </section>
+
+      <section class="section theme-section" id="themes">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">出行灵感</p>
+            <h2>旅行主题</h2>
+          </div>
+        </div>
+        <div class="theme-grid">
+          <button type="button" data-theme-jump="自然风光">自然风光</button>
+          <button type="button" data-theme-jump="历史文化">历史文化</button>
+          <button type="button" data-theme-jump="亲子游">亲子游</button>
+          <button type="button" data-theme-jump="情侣游">情侣游</button>
+          <button type="button" data-theme-jump="摄影">摄影游</button>
+          <button type="button" data-theme-jump="海滨度假">海滨度假</button>
+        </div>
+      </section>
+
+      <section class="section" id="routes">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">路线推荐</p>
+            <h2>按天数快速规划</h2>
+          </div>
+        </div>
+        <div class="route-grid" id="routeGrid"></div>
+      </section>
+
+      <section class="section about-section" id="about">
+        <div class="about-copy">
+          <p class="eyebrow">关于山河行</p>
+          <h2>给第一次做攻略的人一个清晰起点</h2>
+          <p>
+            本站首版聚焦 10 个国内热门目的地，用统一结构整理亮点、路线、交通、住宿、美食和避坑信息。后续可继续扩展城市攻略、地图路线和 AI 行程规划。
+          </p>
+        </div>
+        <div class="about-panel">
+          <h3>适合谁使用</h3>
+          <ul>
+            <li>正在比较多个目的地的自由行用户</li>
+            <li>计划周末、节假日、亲子或情侣出游的人</li>
+            <li>希望快速拿到可执行路线的新手用户</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© 2026 山河行旅行攻略</span>
+      <span>联系邮箱：hello@shanhe-trip.example</span>
+      <span>友情链接：城市攻略 / 景区地图 / 旅行摄影</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
